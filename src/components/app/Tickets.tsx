@@ -62,6 +62,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { motion } from "framer-motion";
+
 import {
   Dialog,
   DialogContent,
@@ -173,6 +175,14 @@ export default function TicketsComponent() {
     },
   ]);
 
+  interface ticket {
+    id: number;
+    subject: string;
+    status: string;
+  }
+
+  const [selectedTicket, setSelectedTicket] = useState<ticket | null>(null);
+
   const [message, setMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -254,7 +264,12 @@ export default function TicketsComponent() {
           className="space-x-4"
         >
           <ResizablePanel defaultSize={35} minSize={22}>
-            <div className="w-full">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-full"
+            >
               <Tabs defaultValue="active">
                 <TabsList className="w-full">
                   <TabsTrigger value="active" className="w-full">
@@ -281,7 +296,17 @@ export default function TicketsComponent() {
                         <TableCell>Awaiting reply</TableCell>
                         <TableCell>Account suspended</TableCell>
                         <TableCell className="text-right">
-                          <Button>Show</Button>
+                          <Button
+                            onClick={() => {
+                              setSelectedTicket({
+                                id: 39432,
+                                subject: "Account suspended",
+                                status: "Awaiting reply",
+                              });
+                            }}
+                          >
+                            Show
+                          </Button>
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -289,7 +314,17 @@ export default function TicketsComponent() {
                         <TableCell>Awaiting reply</TableCell>
                         <TableCell>Account suspended</TableCell>
                         <TableCell className="text-right">
-                          <Button>Show</Button>
+                          <Button
+                            onClick={() => {
+                              setSelectedTicket({
+                                id: 39432,
+                                subject: "Account suspended",
+                                status: "Awaiting reply",
+                              });
+                            }}
+                          >
+                            Show
+                          </Button>
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -297,7 +332,17 @@ export default function TicketsComponent() {
                         <TableCell>Awaiting reply</TableCell>
                         <TableCell>Account suspended</TableCell>
                         <TableCell className="text-right">
-                          <Button>Show</Button>
+                          <Button
+                            onClick={() => {
+                              setSelectedTicket({
+                                id: 39432,
+                                subject: "Account suspended",
+                                status: "Awaiting reply",
+                              });
+                            }}
+                          >
+                            Show
+                          </Button>
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -307,102 +352,129 @@ export default function TicketsComponent() {
                   Change your password here.
                 </TabsContent>
               </Tabs>
-            </div>
+            </motion.div>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel minSize={40}>
-            <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
-              <CardContent className="bg-zinc-950 rounded-2xl p-4 mb-8 mt-4">
-                <div className="flex flex-row space-x-4 items-start">
-                  <Badge variant="default" className="mt-0.5">
-                    Active
-                  </Badge>
-                  <div className="flex flex-col space-y-2">
-                    <p>
-                      <span className="font-semibold">Ticket ID:</span> 39432
-                    </p>
-                    <p>
-                      <span className="font-semibold">Subject:</span> Account
-                      suspended
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-              <div className="flex-1 sm:p-2 p-4 flex flex-col overflow-y-auto scroll-auto">
-                {messages.map((message, index) => {
-                  const previousMessage = messages[index - 1];
-                  const isSameUser =
-                    previousMessage &&
-                    previousMessage.isOwnMessage === message.isOwnMessage;
-                  return (
-                    <div
-                      key={index}
-                      className={`flex ${
-                        message.isOwnMessage ? "justify-end" : "justify-start"
-                      } ${isSameUser ? "pt-3" : ""}`}
-                    >
-                      <div className="flex flex-col">
-                        <div
-                          className={`p-2 rounded-lg ${
-                            message.isOwnMessage
-                              ? "bg-blue-700 text-white rounded-br-none"
-                              : "bg-zinc-700 text-white rounded-bl-none"
-                          }`}
-                        >
-                          {message.message}
-                        </div>
-                        <div className="text-sm text-gray-500 mt-1">
-                          {new Date().toLocaleTimeString()}
-                        </div>
-                      </div>
-                      {message.isOwnMessage && (
-                        <Avatar className="">
-                          <AvatarImage src="https://github.com/shadcn.png" />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                      )}
+            {selectedTicket ? (
+              <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
+                <CardContent className="bg-zinc-950 rounded-2xl p-4 mb-8 mt-4">
+                  <div className="flex flex-row space-x-4 items-start">
+                    <Badge variant="default" className="mt-0.5">
+                      {selectedTicket.status}
+                    </Badge>
+                    <div className="flex flex-col space-y-2">
+                      <p>
+                        <span className="font-semibold">Ticket ID:</span>{" "}
+                        {selectedTicket.id}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Subject:</span>{" "}
+                        {selectedTicket.subject}
+                      </p>
                     </div>
-                  );
-                })}
-                <div ref={messagesEndRef} />
-              </div>
-              <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring mt-3">
-                <Label htmlFor="message" className="sr-only">
-                  Message
-                </Label>
-                <Textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  ref={textareaRef}
-                  placeholder="Type your message here..."
-                  className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
-                />
-                <div className="flex items-center p-3 pt-0">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <Paperclip className="size-4" />
-                          <span className="sr-only">Attach file</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">Attach File</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <Mic className="size-4" />
-                          <span className="sr-only">Use Microphone</span>
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">Use Microphone</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
+                  </div>
+                </CardContent>
+                <div className="flex-1 sm:p-2 p-4 flex flex-col overflow-y-auto scroll-auto">
+                  {messages.map((message, index) => {
+                    const previousMessage = messages[index - 1];
+                    const isSameUser =
+                      previousMessage &&
+                      previousMessage.isOwnMessage === message.isOwnMessage;
+                    return (
+                      <div
+                        key={index}
+                        className={`flex ${
+                          message.isOwnMessage ? "justify-end" : "justify-start"
+                        } ${isSameUser ? "pt-3" : ""}`}
+                      >
+                        <div className="flex flex-col">
+                          <div
+                            className={`p-2 rounded-lg ${
+                              message.isOwnMessage
+                                ? "bg-blue-700 text-white rounded-br-none"
+                                : "bg-zinc-700 text-white rounded-bl-none"
+                            }`}
+                          >
+                            {message.message}
+                          </div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            {new Date().toLocaleTimeString()}
+                          </div>
+                        </div>
+                        {message.isOwnMessage && (
+                          <Avatar className="ml-2">
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <div ref={messagesEndRef} />
+                </div>
+                <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring mt-3">
+                  <Label htmlFor="message" className="sr-only">
+                    Message
+                  </Label>
+                  <Textarea
+                    id="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    ref={textareaRef}
+                    placeholder="Type your message here..."
+                    className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+                  />
+                  <div className="flex items-center p-3 pt-0">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <Paperclip className="size-4" />
+                            <span className="sr-only">Attach file</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">Attach File</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <Mic className="size-4" />
+                            <span className="sr-only">Use Microphone</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">
+                          Use Microphone
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Popover>
+                            <PopoverTrigger>
+                              <Mic className="size-5" />
+                              <span className="sr-only">Use Microphodne</span>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-full">
+                              <Picker
+                                emojiSize={18}
+                                theme="dark"
+                                data={data}
+                                maxFrequentRows={1}
+                                onEmojiSelect={(emoji: any) =>
+                                  handleEmojiSelect(emoji.native)
+                                }
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">
+                          Use Microphone
+                        </TooltipContent>
+                      </Tooltip>
+                      <div className="flex flex-row items-center space-x-3 ml-auto">
                         <Popover>
                           <PopoverTrigger>
-                            <Mic className="size-5" />
+                            <SmileIcon className="size-6" />
                             <span className="sr-only">Use Microphodne</span>
                           </PopoverTrigger>
                           <PopoverContent className="w-full">
@@ -417,50 +489,43 @@ export default function TicketsComponent() {
                             />
                           </PopoverContent>
                         </Popover>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">Use Microphone</TooltipContent>
-                    </Tooltip>
-                    <div className="flex flex-row items-center space-x-3 ml-auto">
-                      <Popover>
-                        <PopoverTrigger>
-                          <SmileIcon className="size-6" />
-                          <span className="sr-only">Use Microphodne</span>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full">
-                          <Picker
-                            emojiSize={18}
-                            theme="dark"
-                            data={data}
-                            maxFrequentRows={1}
-                            onEmojiSelect={(emoji: any) =>
-                              handleEmojiSelect(emoji.native)
+                        <Button
+                          type="submit"
+                          size="sm"
+                          className="ml-auto gap-1.5"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!message) {
+                              toast("Please enter a message to send.");
+                              return;
                             }
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <Button
-                        type="submit"
-                        size="sm"
-                        className="ml-auto gap-1.5"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (!message) {
-                            toast("Please enter a message to send.", {
-                              type: "error",
-                            });
-                            return;
-                          }
-                          handleMessageSubmit();
-                        }}
-                      >
-                        Send Message
-                        <CornerDownLeft className="size-3.5" />
-                      </Button>
-                    </div>
-                  </TooltipProvider>
-                </div>
-              </form>
-            </div>
+                            handleMessageSubmit();
+                          }}
+                        >
+                          Send Message
+                          <CornerDownLeft className="size-3.5" />
+                        </Button>
+                      </div>
+                    </TooltipProvider>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center h-full">
+                <motion.div
+                  whileHover={
+                    isDesktop
+                      ? { scale: 1.05, transition: { duration: 0.2 } }
+                      : {}
+                  }
+                  className="bg-zinc-900 rounded-lg p-6 border-2"
+                >
+                  <p className="text-center text-2xl font-semibold">
+                    Select a ticket to view its details.
+                  </p>
+                </motion.div>
+              </div>
+            )}
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>

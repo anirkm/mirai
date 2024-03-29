@@ -17,7 +17,7 @@ import React from "react";
 export default function Navbar() {
   return (
     <main className="flex justify-center mt-6">
-      <NavigationMenu className="flex flex-row space-x-52 bg-zinc-950 p-3 border-2 border-[#1a1a1a] shadow-sm rounded-2xl">
+      <NavigationMenu className="hidden flex-row space-x-52 bg-zinc-950 p-3 border-2 border-[#1a1a1a] shadow-sm rounded-2xl md:flex">
         <div className="flex flex-row space-x-2 items-center">
           <img
             src="https://r2.guns.lol/guns_logo.png"

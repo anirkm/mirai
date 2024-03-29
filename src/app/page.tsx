@@ -30,7 +30,7 @@ export default function Me() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col justify-center items-center space-y-32 mt-6"
+      className="flex flex-col justify-center items-center space-y-32 mt-6 mx-4"
     >
       <AnimatePresence>
         <motion.div
@@ -83,8 +83,8 @@ export default function Me() {
           />
         </div>
         <div className="flex justify-center items-center flex-col space-y-14">
-          <p className="font-bold text-3xl">So what we got for you ? rien</p>
-          <div className="grid grid-cols-2 gap-4">
+          <p className="font-bold text-2xl lg:text-3xl">So what we got for you ? rien</p>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div className="flex flex-col justify-center p-2  transition-transform hover:scale-[1.03] space-y-4 items-center min-w-[300px] min-h-60 bg-zinc-900 my-1 rounded-2xl text-center">
               <img
                 src="https://r2.guns.lol/guns_logo.png"

@@ -267,7 +267,7 @@ export default function TicketsComponent() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3 }}
               className="w-full"
             >
               <Tabs defaultValue="active">
@@ -357,7 +357,12 @@ export default function TicketsComponent() {
           <ResizableHandle withHandle />
           <ResizablePanel minSize={40}>
             {selectedTicket ? (
-              <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden"
+              >
                 <CardContent className="bg-zinc-950 rounded-2xl p-4 mb-8 mt-4">
                   <div className="flex flex-row space-x-4 items-start">
                     <Badge variant="default" className="mt-0.5">
@@ -509,7 +514,7 @@ export default function TicketsComponent() {
                     </TooltipProvider>
                   </div>
                 </form>
-              </div>
+              </motion.div>
             ) : (
               <div className="flex justify-center items-center h-full">
                 <motion.div

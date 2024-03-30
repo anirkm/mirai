@@ -45,7 +45,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import TicketsComponent from "@/components/app/Tickets";
 import DashboardComponent from "@/components/app/Dashboard";
 import PlanComponent from "@/components/app/Plan";
-
+import SettingsComponenet from "@/components/app/Settings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function renderTabContent(selectedTab: string) {
@@ -56,6 +56,8 @@ function renderTabContent(selectedTab: string) {
       return <TicketsComponent />;
     case "plan":
       return <PlanComponent />;
+    case "settings":
+      return <SettingsComponenet />;
 
     default:
       return (
@@ -294,7 +296,13 @@ export function Dashboard() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSelectedTab("settings");
+                }}
+              >
+                Settings
+              </DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
